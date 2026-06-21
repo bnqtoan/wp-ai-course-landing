@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WordPress + AI: Tự dựng website bán hàng thật | ViberyEdu</title>
+  <style>
+    :root {
+      --purple: #a435f0;
+      --purple-dark: #7f28c4;
+      --ink: #1c1d1f;
+      --muted: #6a6f73;
+      --line: #d1d7dc;
+      --soft: #f7f9fa;
+      --hero: #1c1d1f;
+      --green: #1e7f4f;
+      --gold: #f3ca8c;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 10px rgba(28, 29, 31, .06);
+    }
+    .nav {
+      max-width: var(--max);
+      min-height: 64px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    .brand {
+      color: var(--purple);
+      font-size: 24px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      flex: 1;
+      color: #2d2f31;
+      font-size: 14px;
+    }
+    .search {
+      flex: 1;
+      max-width: 390px;
+      min-width: 180px;
+      height: 42px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #2d2f31;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--muted);
+    }
+    .nav-action {
+      padding: 9px 14px;
+      border: 1px solid #2d2f31;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .hero { background: var(--hero); color: #fff; }
+    .hero-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 44px 24px 52px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 368px;
+      gap: 42px;
+      align-items: start;
+    }
+    .breadcrumbs {
+      margin-bottom: 18px;
+      color: #cec0fc;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    h1 {
+      max-width: 800px;
+      margin: 0 0 16px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 44px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      max-width: 760px;
+      margin: 0 0 18px;
+      color: #f7f9fa;
+      font-size: 20px;
+    }
+    .hero-copy {
+      max-width: 740px;
+      margin: 0 0 18px;
+      color: #d1d7dc;
+      font-size: 16px;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 14px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 29px;
+      padding: 4px 10px;
+      background: #eceb98;
+      color: #3d3c0a;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .chip.alt {
+      background: #2d2f31;
+      color: #fff;
+      border: 1px solid #6a6f73;
+    }
+    .rating {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0;
+      color: var(--gold);
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .rating span { color: #d1d7dc; font-weight: 400; }
+    .instructor { margin-top: 12px; color: #f7f9fa; font-size: 15px; }
+
+    .buy-card {
+      position: sticky;
+      top: 86px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 18px rgba(28, 29, 31, .20);
+    }
+    .thumb {
+      min-height: 204px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      text-align: center;
+      color: #fff;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(255,255,255,.55) 0 8%, transparent 9%),
+        radial-gradient(circle at 82% 82%, rgba(255,255,255,.22) 0 14%, transparent 15%),
+        linear-gradient(135deg, rgba(164,53,240,.95), rgba(28,29,31,.96));
+    }
+    .play {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--purple);
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .card-body { padding: 22px; }
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .price strong { font-size: 32px; line-height: 1; }
+    .price del { color: var(--muted); font-size: 16px; }
+    .btn {
+      width: 100%;
+      min-height: 48px;
+      margin-bottom: 10px;
+      border: 0;
+      background: var(--purple);
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .btn:hover { background: var(--purple-dark); }
+    .guarantee {
+      margin: 4px 0 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .includes-title {
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .includes {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #2d2f31;
+      font-size: 14px;
+    }
+    .includes li { display: grid; grid-template-columns: 22px 1fr; gap: 4px; }
+    .includes b { color: var(--green); }
+
+    .main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 34px 24px 70px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 368px;
+      gap: 42px;
+      align-items: start;
+    }
+    section { padding: 24px 0 32px; border-bottom: 1px solid #eef0f2; }
+    section:last-child { border-bottom: 0; }
+    h2 {
+      margin: 0 0 16px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    h3 { margin: 0 0 8px; font-size: 19px; line-height: 1.3; }
+    p { margin: 0 0 12px; }
+    .muted { color: var(--muted); }
+    .summary-line {
+      display: inline-flex;
+      margin: 2px 0 18px;
+      padding: 8px 12px;
+      background: #f3e9fb;
+      color: #4d1c72;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .grid-3, .grid-2 {
+      display: grid;
+      gap: 14px;
+    }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .item {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+    .item strong { display: block; margin-bottom: 6px; }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .compare-col { padding: 18px; background: #fff; }
+    .compare-col + .compare-col { border-left: 1px solid var(--line); background: #fbf7ff; }
+    .compare ul, .simple-list {
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+    .compare li, .simple-list li { margin: 8px 0; }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    summary {
+      cursor: pointer;
+      padding: 16px 18px;
+      font-size: 17px;
+      font-weight: 900;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary:after {
+      content: "+";
+      float: right;
+      color: var(--purple);
+      font-size: 22px;
+      line-height: 1;
+    }
+    details[open] summary:after { content: "-"; }
+    .lesson-list {
+      margin: 0;
+      padding: 0 18px 18px 18px;
+      list-style: none;
+    }
+    .lesson-list li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid #eef0f2;
+      color: #2d2f31;
+      font-size: 14px;
+    }
+    .time { color: var(--muted); white-space: nowrap; }
+
+    .agency {
+      padding: 22px;
+      border: 1px solid #c7a4e8;
+      border-radius: 6px;
+      background: #fbf7ff;
+    }
+    .agency .big {
+      margin: 0 0 8px;
+      font-size: 30px;
+      font-weight: 900;
+      color: #4d1c72;
+    }
+    .faq details { margin-bottom: 10px; }
+    .faq p { padding: 0 18px 18px; color: #2d2f31; }
+
+    .side-spacer { display: block; }
+    .footer {
+      border-top: 1px solid var(--line);
+      background: #1c1d1f;
+      color: #fff;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #d1d7dc;
+      font-size: 14px;
+    }
+    .footer b { color: #fff; }
+
+    @media (max-width: 960px) {
+      .hero-inner, .main { grid-template-columns: 1fr; }
+      .buy-card {
+        position: static;
+        max-width: 560px;
+      }
+      .main .side-spacer { display: none; }
+      .grid-3, .grid-2, .compare { grid-template-columns: 1fr; }
+      .compare-col + .compare-col { border-left: 0; border-top: 1px solid var(--line); }
+      .search, .navlinks a:nth-child(n+3), .nav-action { display: none; }
+    }
+    @media (max-width: 640px) {
+      .nav { padding: 0 16px; gap: 12px; }
+      .brand { font-size: 21px; }
+      .hero-inner, .main { padding-left: 16px; padding-right: 16px; }
+      h1 { font-size: 34px; }
+      h2 { font-size: 26px; }
+      .lesson-list li { grid-template-columns: 1fr; gap: 4px; }
+      .footer-inner { flex-direction: column; padding-left: 16px; padding-right: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="Điều hướng">
+      <a class="brand" href="#">ViberyEdu</a>
+      <div class="search">Tìm khoá học</div>
+      <div class="navlinks">
+        <a href="#outcomes">Kết quả</a>
+        <a href="#curriculum">Nội dung</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a class="nav-action" href="#buy">Đăng ký</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="breadcrumbs">Phát triển web · WordPress · AI workflow</div>
+        <h1>Tự dựng website bán hàng thật bằng AI — không thuê agency, không cần code</h1>
+        <p class="subtitle">Một khoá thực chiến cho chủ shop nhỏ và freelancer: ra được website WordPress của riêng bạn, online thật, tự cập nhật bằng AI.</p>
+        <p class="hero-copy">Khác khoá WordPress cũ: bạn không học để thành người bấm wp-admin. Bạn học đủ nền tảng để điều khiển AI, rồi AI + Kit + MCP làm phần dựng website và quản lý nội dung.</p>
+        <div class="chips" aria-label="Thông tin khoá học">
+          <span class="chip">Tiếng Việt</span>
+          <span class="chip alt">Có lớp Live</span>
+          <span class="chip">Tặng 3 tháng hosting</span>
+        </div>
+        <div class="rating">4.8 ★★★★★ <span>(96 đánh giá)</span></div>
+        <div class="instructor">Giảng viên: <strong>Tony</strong></div>
+      </div>
+
+      <aside class="buy-card" id="buy" aria-label="Thẻ đăng ký khoá học">
+        <div class="thumb">
+          <div>
+            <div class="play">›</div>
+            <strong>WordPress + AI</strong>
+            <div>Website thật, chạy được, tự quản lý được</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="price"><strong>5.000.000đ</strong><del>7.900.000đ</del></div>
+          <button class="btn" type="button">Đăng ký ngay</button>
+          <div class="guarantee">Một gói duy nhất · học video + live gỡ rối</div>
+          <p class="includes-title">Gói gồm:</p>
+          <ul class="includes">
+            <li><b>✓</b><span>5 mô-đun video ghi sẵn</span></li>
+            <li><b>✓</b><span>Lớp Live gỡ rối + hỏi đáp</span></li>
+            <li><b>✓</b><span>Bộ Kit + kết nối AI qua MCP</span></li>
+            <li><b>✓</b><span>Templates + worksheet</span></li>
+            <li><b>✓</b><span>TẶNG 3 tháng hosting</span></li>
+            <li><b>✓</b><span>Truy cập trọn đời video</span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <main class="main">
+    <div>
+      <section id="outcomes">
+        <h2>Bạn nhận được gì sau khoá</h2>
+        <div class="grid-3">
+          <div class="item">
+            <strong>Một website thật của riêng bạn</strong>
+            <p class="muted">Site online, người khác mở được, dùng được cho sản phẩm, dịch vụ, thực đơn, portfolio hoặc dự án khách.</p>
+          </div>
+          <div class="item">
+            <strong>Tự thêm/sửa nội dung bằng AI</strong>
+            <p class="muted">Thêm sản phẩm, đổi giá, thêm danh mục, cập nhật nội dung qua MCP thay vì làm tay từng bước.</p>
+          </div>
+          <div class="item">
+            <strong>Dựng và giao web nhanh hơn</strong>
+            <p class="muted">Chủ shop không phụ thuộc agency. Freelancer có quy trình để giao web nhanh và lặp lại cho dự án sau.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Khoá này khác gì khoá WordPress cũ</h2>
+        <div class="compare">
+          <div class="compare-col">
+            <h3>Khoá WordPress cũ</h3>
+            <ul>
+              <li>Học bấm nút trong wp-admin.</li>
+              <li>Tự build từng trang bằng tay.</li>
+              <li>Quản nội dung thủ công.</li>
+              <li>Thường chỉ có video để xem lại.</li>
+            </ul>
+          </div>
+          <div class="compare-col">
+            <h3>Khoá này</h3>
+            <ul>
+              <li>Học cách điều khiển AI bằng nền tảng WordPress vừa đủ.</li>
+              <li>AI + Kit + MCP dựng cấu trúc, trang và luồng nội dung.</li>
+              <li>Quản nội dung bằng cách nói với AI.</li>
+              <li>Có live gỡ rối, Kit thật, MCP, templates và hosting.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="curriculum">
+        <h2>Nội dung khoá học</h2>
+        <div class="summary-line">5 phần · 18 bài · ~5 giờ 15 phút</div>
+
+        <details open>
+          <summary>Mô-đun 1 — Nền tảng WordPress cho người dùng AI</summary>
+          <ul class="lesson-list">
+            <li><span>1.1 Khoá này khác gì khoá WordPress cũ</span><span class="time">15 phút</span></li>
+            <li><span>1.2 WordPress là gì: nội dung bên trong, hiển thị bên ngoài</span><span class="time">12 phút</span></li>
+            <li><span>1.3 Ba thành phần bạn sẽ ra lệnh cho AI tạo</span><span class="time">18 phút</span></li>
+            <li><span>1.4 Plugin, theme, Kit: vai trò mỗi cái</span><span class="time">10 phút</span></li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Mô-đun 2 — Dựng website thật bằng AI + Kit</summary>
+          <ul class="lesson-list">
+            <li><span>2.1 Có một site chạy thật + cài Kit</span><span class="time">10 phút</span></li>
+            <li><span>2.2 Kết nối AI với Kit bằng MCP</span><span class="time">15 phút</span></li>
+            <li><span>2.3 Chọn dự án của bạn + sắp xếp dữ liệu</span><span class="time">20 phút</span></li>
+            <li><span>2.4 Yêu cầu AI + Kit dựng trang danh sách của bạn</span><span class="time">25 phút</span></li>
+            <li><span>2.5 Nhìn dưới nắp ca-pô trong wp-admin</span><span class="time">12 phút</span></li>
+            <li><span>2.6 Trang sống vs trang chết, bộ lọc, và điện thoại</span><span class="time">18 phút</span></li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Mô-đun 3 — Đưa website lên thật (Deploy)</summary>
+          <ul class="lesson-list">
+            <li><span>3.1 Trỏ tên miền + đưa site online bằng nhà cung cấp one-click</span><span class="time">18 phút</span></li>
+            <li><span>3.2 Kiểm tra site thật</span><span class="time">12 phút</span></li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Mô-đun 4 — Quản lý nội dung thông minh bằng AI (MCP)</summary>
+          <ul class="lesson-list">
+            <li><span>4.1 Quản nội dung kiểu cũ vs kiểu AI</span><span class="time">15 phút</span></li>
+            <li><span>4.2 Thêm/sửa sản phẩm, đổi giá, thêm danh mục bằng cách nói với AI</span><span class="time">20 phút</span></li>
+            <li><span>4.3 Cập nhật hàng loạt / nội dung định kỳ bằng AI</span><span class="time">20 phút</span></li>
+            <li><span>4.4 Website lớn lên không loạn vì cấu trúc đã đúng từ đầu</span><span class="time">15 phút</span></li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Mô-đun 5 — Dự án của bạn (Capstone)</summary>
+          <ul class="lesson-list">
+            <li><span>5.1 Bạn dựng site thật của riêng mình</span><span class="time">35 phút</span></li>
+            <li><span>5.2 Bàn giao tài nguyên</span><span class="time">25 phút</span></li>
+          </ul>
+        </details>
+      </section>
+
+      <section>
+        <h2>Cách học</h2>
+        <div class="grid-3">
+          <div class="item">
+            <strong>1. Xem video trước</strong>
+            <p class="muted">Mỗi mô-đun có video ghi sẵn để bạn học nền tảng và làm theo trên dự án của mình.</p>
+          </div>
+          <div class="item">
+            <strong>2. Mang chỗ kẹt tới Live</strong>
+            <p class="muted">Live dùng để gỡ rối, hỏi đáp, xem lỗi cụ thể. Không giảng lại toàn bộ video.</p>
+          </div>
+          <div class="item">
+            <strong>3. Nhận tài nguyên thật</strong>
+            <p class="muted">Bạn được bàn giao Kit, MCP, templates, worksheet và 3 tháng hosting để dựng site ngay.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Dành cho ai</h2>
+        <div class="grid-2">
+          <div class="item">
+            <h3>Chủ shop nhỏ</h3>
+            <p class="muted">Bạn muốn có website bán hàng, giới thiệu dịch vụ, thực đơn, portfolio hoặc landing cho sản phẩm mà không phải thuê agency ngay từ đầu.</p>
+          </div>
+          <div class="item">
+            <h3>Freelancer</h3>
+            <p class="muted">Bạn muốn giao website nhanh hơn, giảm thời gian sửa tay, và có quy trình lặp lại cho nhiều dự án khách.</p>
+          </div>
+        </div>
+        <ul class="simple-list">
+          <li>Không cần biết code.</li>
+          <li>Cần biết dùng máy tính cơ bản và sẵn sàng làm theo quy trình.</li>
+          <li>Nên có một ý tưởng website thật để mang vào khoá.</li>
+        </ul>
+      </section>
+
+      <section>
+        <div class="agency">
+          <h2>Agency tính 15-30tr cho một website. Khoá này: 5tr.</h2>
+          <p class="big">Bạn học cách tự dựng + tự chạy mãi mãi.</p>
+          <p>Với chủ shop, 5 triệu rẻ hơn rất nhiều so với thuê làm một site rồi phụ thuộc người khác mỗi lần sửa. Với freelancer, một dự án khách đã có thể dư tiền khoá; phần lợi nhuận nằm ở tốc độ giao hàng sau đó.</p>
+        </div>
+      </section>
+
+      <section class="faq" id="faq">
+        <h2>FAQ</h2>
+        <details>
+          <summary>Cần biết code không?</summary>
+          <p>Không. Khoá này dạy bạn hiểu WordPress vừa đủ để ra lệnh và kiểm tra AI, không dạy viết code.</p>
+        </details>
+        <details>
+          <summary>Không rành máy tính lắm có học được không?</summary>
+          <p>Được nếu bạn dùng được trình duyệt, đăng nhập tài khoản, làm theo từng bước và chịu khó mang chỗ kẹt vào buổi live.</p>
+        </details>
+        <details>
+          <summary>Live vào lúc nào?</summary>
+          <p>Lịch live được thông báo theo từng cohort. Bạn xem video trước, ghi lại câu hỏi hoặc lỗi gặp phải, rồi mang vào live để được gỡ.</p>
+        </details>
+        <details>
+          <summary>Hosting sau 3 tháng thì sao?</summary>
+          <p>3 tháng đầu được tặng để bạn học và đưa site lên thật. Sau đó bạn có thể gia hạn hosting hoặc chuyển site sang nhà cung cấp khác.</p>
+        </details>
+        <details>
+          <summary>Có Kit thật không?</summary>
+          <p>Có. Gói học bao gồm Kit license key, hướng dẫn kết nối AI qua MCP, templates và worksheet để dùng trong quá trình dựng site.</p>
+        </details>
+      </section>
+    </div>
+
+    <div class="side-spacer" aria-hidden="true"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><b>ViberyEdu</b> · WordPress + AI cho người làm thật</div>
+      <div>5 phần · 18 bài · ~5 giờ 15 phút · Một gói duy nhất 5.000.000đ</div>
+    </div>
+  </footer>
+</body>
+</html>
