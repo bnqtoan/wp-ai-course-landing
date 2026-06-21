@@ -327,6 +327,102 @@
     }
     .time { color: var(--muted); white-space: nowrap; }
 
+    .live-section {
+      margin-top: 4px;
+      padding: 24px;
+      border: 1px solid #c7a4e8;
+      border-radius: 6px;
+      background: #fbf7ff;
+    }
+    .live-hero {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .live-kicker {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 10px;
+      background: #f3e9fb;
+      color: #4d1c72;
+      font-size: 13px;
+      font-weight: 900;
+    }
+    .live-headline {
+      margin: 0;
+      color: #4d1c72;
+      font-size: 30px;
+      line-height: 1.18;
+      font-weight: 900;
+    }
+    .live-copy {
+      max-width: 720px;
+      margin: 0;
+      color: #2d2f31;
+      font-size: 16px;
+    }
+    .live-dates {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .live-date-card {
+      padding: 14px;
+      border: 1px solid #d9b8f3;
+      border-radius: 6px;
+      background: #fff;
+    }
+    .live-date-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #2d2f31;
+      font-size: 16px;
+    }
+    .live-date-card span {
+      color: var(--purple);
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .live-note {
+      margin: 0 0 12px;
+      color: #4d1c72;
+      font-weight: 900;
+    }
+    .live-table {
+      display: grid;
+      border: 1px solid #d9b8f3;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .live-row {
+      display: grid;
+      grid-template-columns: 142px minmax(0, 1fr) 132px;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #eef0f2;
+      align-items: start;
+    }
+    .live-row:last-child { border-bottom: 0; }
+    .live-session {
+      color: var(--purple);
+      font-weight: 900;
+    }
+    .live-topic strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #2d2f31;
+    }
+    .live-topic span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .live-schedule {
+      color: #2d2f31;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
     .agency {
       padding: 22px;
       border: 1px solid #c7a4e8;
@@ -368,6 +464,9 @@
       }
       .main .side-spacer { display: none; }
       .grid-3, .grid-2, .compare { grid-template-columns: 1fr; }
+      .live-dates { grid-template-columns: 1fr; }
+      .live-row { grid-template-columns: 1fr; gap: 4px; }
+      .live-schedule { white-space: normal; }
       .compare-col + .compare-col { border-left: 0; border-top: 1px solid var(--line); }
       .search, .navlinks a:nth-child(n+3), .nav-action { display: none; }
     }
@@ -377,6 +476,8 @@
       .hero-inner, .main { padding-left: 16px; padding-right: 16px; }
       h1 { font-size: 34px; }
       h2 { font-size: 26px; }
+      .live-section { padding: 18px; }
+      .live-headline { font-size: 25px; }
       .lesson-list li { grid-template-columns: 1fr; gap: 4px; }
       .footer-inner { flex-direction: column; padding-left: 16px; padding-right: 16px; }
     }
@@ -405,7 +506,7 @@
         <p class="hero-copy">Khác khoá WordPress cũ: bạn không học để thành người bấm wp-admin. Bạn học đủ nền tảng để điều khiển AI, rồi AI + Kit + MCP làm phần dựng website và quản lý nội dung.</p>
         <div class="chips" aria-label="Thông tin khoá học">
           <span class="chip">Tiếng Việt</span>
-          <span class="chip alt">Có lớp Live</span>
+          <span class="chip alt">Live mỗi Thứ 5, 20:00</span>
           <span class="chip">Tặng 3 tháng hosting</span>
         </div>
         <div class="rating">4.8 ★★★★★ <span>(96 đánh giá)</span></div>
@@ -427,7 +528,8 @@
           <p class="includes-title">Gói gồm:</p>
           <ul class="includes">
             <li><b>✓</b><span>5 mô-đun video ghi sẵn</span></li>
-            <li><b>✓</b><span>Lớp Live gỡ rối + hỏi đáp</span></li>
+            <li><b>✓</b><span>Lớp Live mỗi Thứ 5 20:00 — gỡ rối + hỏi đáp</span></li>
+            <li><b>✓</b><span>Kênh riêng trên server cộng đồng — hỏi đáp + hỗ trợ giữa các buổi live</span></li>
             <li><b>✓</b><span>Bộ Kit + kết nối AI qua MCP</span></li>
             <li><b>✓</b><span>Templates + worksheet</span></li>
             <li><b>✓</b><span>TẶNG 3 tháng hosting</span></li>
@@ -547,9 +649,84 @@
             <p class="muted">Live dùng để gỡ rối, hỏi đáp, xem lỗi cụ thể. Không giảng lại toàn bộ video.</p>
           </div>
           <div class="item">
-            <strong>3. Nhận tài nguyên thật</strong>
+            <strong>3. Hỏi trong kênh riêng</strong>
+            <p class="muted">Giữa các buổi live, bạn có kênh riêng trên server cộng đồng để hỏi bất cứ lúc nào, nhận hỗ trợ và kết nối với học viên khác đang cùng làm.</p>
+          </div>
+          <div class="item">
+            <strong>4. Nhận tài nguyên thật</strong>
             <p class="muted">Bạn được bàn giao Kit, MCP, templates, worksheet và 3 tháng hosting để dựng site ngay.</p>
           </div>
+        </div>
+      </section>
+
+      <section id="live">
+        <div class="live-section">
+          <h2>Lịch học Live</h2>
+          <div class="live-hero">
+            <span class="live-kicker">Live streaming calendar</span>
+            <p class="live-headline">Live mỗi Thứ 5, 20:00 (giờ VN)</p>
+            <p class="live-copy">Đăng ký bất kỳ lúc nào — vào học ngay, buổi live gần nhất: <strong>Thứ 5, 25/06/2026 lúc 20:00</strong>.</p>
+            <p class="live-copy">Nhận học viên mới mỗi 2 tuần.</p>
+            <div class="live-dates" aria-label="Các buổi live sắp tới">
+              <div class="live-date-card">
+                <strong>Thứ 5 25/06</strong>
+                <span>20:00</span>
+              </div>
+              <div class="live-date-card">
+                <strong>Thứ 5 02/07</strong>
+                <span>20:00</span>
+              </div>
+              <div class="live-date-card">
+                <strong>Thứ 5 09/07</strong>
+                <span>20:00</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="live-note">Các buổi live xoay vòng theo 5 mô-đun, học viên tới buổi nào hợp với mô-đun mình đang học.</p>
+          <div class="live-table" aria-label="Bảng buổi live theo mô-đun">
+            <div class="live-row">
+              <div class="live-session">Buổi live 1</div>
+              <div class="live-topic">
+                <strong>Nền tảng WordPress cho người dùng AI</strong>
+                <span>Hỏi đáp về khái niệm + định hướng</span>
+              </div>
+              <div class="live-schedule">Thứ 5, 20:00</div>
+            </div>
+            <div class="live-row">
+              <div class="live-session">Buổi live 2</div>
+              <div class="live-topic">
+                <strong>Dựng website bằng AI + Kit</strong>
+                <span>Gỡ rối kết nối MCP, dựng trang, 3 case</span>
+              </div>
+              <div class="live-schedule">Thứ 5, 20:00</div>
+            </div>
+            <div class="live-row">
+              <div class="live-session">Buổi live 3</div>
+              <div class="live-topic">
+                <strong>Đưa website lên thật (Deploy)</strong>
+                <span>Gỡ rối tên miền/đưa online/hosting</span>
+              </div>
+              <div class="live-schedule">Thứ 5, 20:00</div>
+            </div>
+            <div class="live-row">
+              <div class="live-session">Buổi live 4</div>
+              <div class="live-topic">
+                <strong>Quản lý nội dung bằng AI (MCP)</strong>
+                <span>Thực hành thêm/sửa nội dung bằng AI</span>
+              </div>
+              <div class="live-schedule">Thứ 5, 20:00</div>
+            </div>
+            <div class="live-row">
+              <div class="live-session">Buổi live 5</div>
+              <div class="live-topic">
+                <strong>Dự án của bạn (Capstone)</strong>
+                <span>Review dự án thật + gỡ rối cuối</span>
+              </div>
+              <div class="live-schedule">Thứ 5, 20:00</div>
+            </div>
+          </div>
+          <p class="muted" style="margin-top: 12px;">Live = gỡ rối + hỏi đáp, không giảng lại video. Học viên xem video mô-đun trước, mang câu hỏi hoặc chỗ kẹt tới live để được gỡ trực tiếp. Giữa các buổi live, học viên có kênh riêng trên server cộng đồng để hỏi bất cứ lúc nào và chia sẻ tiến độ với các học viên khác.</p>
         </div>
       </section>
 
@@ -592,7 +769,11 @@
         </details>
         <details>
           <summary>Live vào lúc nào?</summary>
-          <p>Lịch live được thông báo theo từng cohort. Bạn xem video trước, ghi lại câu hỏi hoặc lỗi gặp phải, rồi mang vào live để được gỡ.</p>
+          <p>Mỗi Thứ 5 20:00 giờ VN; xem video trước rồi mang câu hỏi tới.</p>
+        </details>
+        <details>
+          <summary>Giữa các buổi live kẹt thì hỏi ở đâu?</summary>
+          <p>Bạn có kênh riêng trên server cộng đồng, hỏi bất cứ lúc nào, được hỗ trợ + có các học viên khác.</p>
         </details>
         <details>
           <summary>Hosting sau 3 tháng thì sao?</summary>
