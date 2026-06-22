@@ -273,6 +273,52 @@
     }
     .item strong { display: block; margin-bottom: 6px; }
 
+    .proof-section {
+      padding-top: 8px;
+    }
+    .proof-copy {
+      max-width: 760px;
+      color: #2d2f31;
+      font-size: 16px;
+    }
+    .proof-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 20px 0 16px;
+    }
+    .proof-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(28, 29, 31, .08);
+    }
+    .proof-card img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .proof-card figcaption {
+      padding: 12px 14px 14px;
+      color: #2d2f31;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+    .proof-note {
+      margin: 0;
+      padding: 12px 14px;
+      border-left: 4px solid var(--purple);
+      background: #fbf7ff;
+      color: #4d1c72;
+      font-weight: 900;
+    }
+
     .compare {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -464,6 +510,7 @@
       }
       .main .side-spacer { display: none; }
       .grid-3, .grid-2, .compare { grid-template-columns: 1fr; }
+      .proof-gallery { grid-template-columns: 1fr; }
       .live-dates { grid-template-columns: 1fr; }
       .live-row { grid-template-columns: 1fr; gap: 4px; }
       .live-schedule { white-space: normal; }
@@ -544,6 +591,26 @@
 
   <main class="main">
     <div>
+      <section class="proof-section" id="proof">
+        <h2>Đây là website thật, dựng hoàn toàn bằng AI + Kit — không code</h2>
+        <p class="proof-copy">Một cửa hàng nội thất hoàn chỉnh: trang chủ, danh mục, cửa hàng có bộ lọc, trang sản phẩm, giỏ hàng. Đây chính là loại website bạn sẽ tự dựng trong khoá — mức mà thuê ngoài thường tốn 15-30 triệu.</p>
+        <div class="proof-gallery" aria-label="Bằng chứng website dựng bằng Kit">
+          <figure class="proof-card">
+            <img src="proof/01-home.jpg" alt="Trang chủ store nội thất Nội Thất Gỗ Việt dựng bằng Kit">
+            <figcaption>Trang chủ chuyên nghiệp — hero, khuyến mãi, lời kêu gọi mua hàng</figcaption>
+          </figure>
+          <figure class="proof-card">
+            <img src="proof/02-shop.jpg" alt="Trang cửa hàng có sản phẩm, bộ lọc, giá và danh mục">
+            <figcaption>Cửa hàng thật: 12 sản phẩm, bộ lọc, giá, danh mục</figcaption>
+          </figure>
+          <figure class="proof-card">
+            <img src="proof/03-product.jpg" alt="Trang chi tiết sản phẩm nội thất có nút thêm vào giỏ">
+            <figcaption>Trang sản phẩm chi tiết, thêm vào giỏ</figcaption>
+          </figure>
+        </div>
+        <p class="proof-note">Tất cả dựng bằng cách mô tả cho AI + bộ công cụ Kit. Bạn không cần biết code.</p>
+      </section>
+
       <section id="outcomes">
         <h2>Bạn nhận được gì sau khoá</h2>
         <div class="grid-3">
